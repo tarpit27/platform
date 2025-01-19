@@ -58,5 +58,8 @@ jobs:
           aws-secret-access-key: ${{secrets.AWS_SECRET_KEY_ID}}
           aws-region: ap-south-1
 
+      - name: Init terraform
+        run: terraform init
+
       - name: TF Apply
         run: terraform apply -auto-approve      
