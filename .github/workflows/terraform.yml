@@ -38,6 +38,7 @@ jobs:
         with:
           aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
           aws-access-secret-key: ${{secrets.AWS_SECRET_KEY_ID}}
+          aws-region: ap-south-1
 
       # Runs a single command using the runners shell
       - name: Init terraform
