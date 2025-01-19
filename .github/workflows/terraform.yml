@@ -1,32 +1,25 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Deployment
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
+
   push:
     branches: [ "main" ]
-  # pull_request:
-  #   branches: [ "main" ]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  Terraform:
-    # The type of runner that the job will run on
+  
+  Plan:
+    
     runs-on: ubuntu-latest
 
     defaults:
       run:
         shell: bash
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -39,16 +32,18 @@ jobs:
           aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
           aws-secret-access-key: ${{secrets.AWS_SECRET_KEY_ID}}
           aws-region: ap-south-1
-
-      # Runs a single command using the runners shell
+    
       - name: Init terraform
         run: terraform init
-
-      # Runs a set of commands using the runners shell
+    
       - name: Terraform Plan
         run: |
           terraform plan
 
-      - name: Terraform Apply
-        run: |
-          terraform apply -auto-approve
+  Apply:
+    runs-on: ubuntu-latest
+    needs: Plan
+    environment: tf-apply
+    steps:
+      - name: TF Apply
+        run: terraform apply -auto-approve      
