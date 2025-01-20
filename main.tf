@@ -8,6 +8,7 @@ terraform {
   backend "s3" {
     bucket = "arpit-tf-state"
     key = "terraform.tfstate"
+    dynamodb_table = "tf-state-lock"
     region = "ap-south-1"
   }
 }
